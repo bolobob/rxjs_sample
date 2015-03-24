@@ -3,7 +3,20 @@ function ViewModel() {
 }
 
 function observable() {
+  var value;
+  var observable = function(newValue) {
+    if (typeof(newValue) === 'undefined') {
+      return value;
+    } else {
+      value = newValue;
+      observable.valueChanged();
+    }
+  };
+  observable.valueChanged = function() {
+    observable['subscriber'](value);
+  }
 
+  return observable;
 }
 
 function bindViewModel(viewModel) {
